@@ -1,22 +1,24 @@
-import { DeviceModel } from "@database/models/userDevices.models";
-import { deviceType } from "@shared/types/device/device.types";
+import UserModel from "@v1/database/models/user.model";
 import { Transaction } from "objection";
 
 export class DeviceRepository{
+    public async findUsers() {
+        return await UserModel.query().withGraphFetched({'posts': true});
+    };
     
-    public async findByDeviceid(deviceId: string, trx?: Transaction) {
-        return await DeviceModel.query(trx).where({deviceId}).withGraphFetched({'user': true}).first();
+    public async findUserById(deviceId: string, trx?: Transaction) {
+        return await UserModel.query(trx).where({deviceId}).withGraphFetched({'posts': true}).first();
     };
 
-    public async updateDevice(deviceId: string, payload: Partial<DeviceModel>, trx?: Transaction){
-        await DeviceModel.query(trx).where({deviceId}).update(payload);
+    public async udateuser(deviceId: string, payload: Partial<UserModel>, trx?: Transaction){
+        await UserModel.query(trx).where({deviceId}).update(payload);
     };
 
-    public async createUserDevice(payload: deviceType, trx?: Transaction){
-        return await DeviceModel.query(trx).insert(payload)
+    public async saveUser(payload: Partial<UserModel>, trx?: Transaction){
+        return await UserModel.query(trx).insert(payload)
     }
 
-    public async deleteDevice(id: string, trx:Transaction){
-        return await DeviceModel.query(trx).deleteById(id)
+    public async deleteUser(id: string, trx:Transaction){
+        return await UserModel.query(trx).deleteById(id)
     }
 }
