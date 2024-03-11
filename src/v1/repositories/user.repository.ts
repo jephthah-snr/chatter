@@ -1,7 +1,7 @@
 import UserModel from "@v1/database/models/user.model";
 import { Transaction } from "objection";
 
-export class DeviceRepository{
+export class UserRepository{
     public async findUsers() {
         return await UserModel.query().withGraphFetched({'posts': true});
     };
