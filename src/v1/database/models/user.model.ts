@@ -1,7 +1,7 @@
 import { Model } from "objection";
 import PostModel from "./post.model";
 import followersModel from "./categories";
-import followingModel from "./following.model";
+// import followingModel from "./following.model";
 export default class UserModel extends Model{
     static tableName = 'users';
 
@@ -11,9 +11,26 @@ export default class UserModel extends Model{
     user_name!: string;
     email!: string;
     role!: string;
-    pasword?: string;
+    password?: string;
     created_at?: Date;
     updated_at?: Date;
+
+
+    static get jsonSchema() {
+      return {
+        type: 'object',
+        required: [],
+
+        id: { type: "string"},
+        first_name: { type: "string"},
+        last_name: { type: "string"},
+        user_name:{ type: "string"},
+        email: { type: "string"},
+        role: { type: "string"},
+        password: { type: "string"},
+
+      }
+    }
 
     static get relationMappings() {
         return {

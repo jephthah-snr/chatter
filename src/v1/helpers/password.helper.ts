@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs'; 
 const {SALT_ROUNDS} = process.env// Change the import statement
 
-class PinHelper {
+class PasswordHelper {
   public async compare(
     plainPassword: string,
     hashPassword: string
@@ -25,4 +25,4 @@ class PinHelper {
   }
 }
 
-export default PinHelper;
+export default PasswordHelper;

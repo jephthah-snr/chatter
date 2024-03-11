@@ -10,6 +10,10 @@ export class UserRepository{
         return await UserModel.query(trx).where({deviceId}).withGraphFetched({'posts': true}).first();
     };
 
+    public async findUserByEmail(email: string, trx?: Transaction) {
+        return await UserModel.query(trx).where({email}).first();
+    };
+
     public async udateuser(deviceId: string, payload: Partial<UserModel>, trx?: Transaction){
         await UserModel.query(trx).where({deviceId}).update(payload);
     };
