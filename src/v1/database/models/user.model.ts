@@ -1,6 +1,6 @@
 import { Model } from "objection";
 import PostModel from "./post.model";
-import followersModel from "./categories";
+// import followersModel from "./categories";
 // import followingModel from "./following.model";
 export default class UserModel extends Model{
     static tableName = 'users';

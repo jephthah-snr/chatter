@@ -10,6 +10,7 @@ import Validator from "validatorjs";
 import { baseRoute } from "@v1/modules/sample/routes/base.route";
 import { sampleRoute } from "@v1/modules/sample/routes/sample.route";
 import { RouteVersion } from "@configurations/route.config";
+import usersRoute from "@v1/modules/users/user.route";
 
 dotenv.config({ path: process.cwd() + "/.env" });
 
@@ -22,6 +23,7 @@ class App {
     this.app.register(baseRoute);
     this.app.register(healthRoute);
     this.app.register(sampleRoute, { prefix: RouteVersion.sample });
+    this.app.register(usersRoute, {prefix: RouteVersion.user})
     this.bootstrapDependencies();
     this.listen();
   }

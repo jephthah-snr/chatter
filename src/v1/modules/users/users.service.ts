@@ -24,6 +24,7 @@ export default class UserService{
 
     public async userLogin(payload: {email: string, password: string}): Promise<string>{
         try {
+            console.log(payload)
             const user = await this.userRepo.findUserByEmail(payload.email)
 
             if(!user) throw new AppError(httpStatus.UNAUTHORIZED, "invalid login details");
@@ -63,5 +64,5 @@ export default class UserService{
         }
     }
     
-    
+
 }

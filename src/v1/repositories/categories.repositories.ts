@@ -2,7 +2,7 @@ import CategoriesModel from "@v1/database/models/categories";
 import { Transaction } from "objection";
 
 export class CategoryRepository{
-    public async findUsers() {
+    public async findAll() {
         return await CategoriesModel.query().withGraphFetched({'posts': true});
     };
     
