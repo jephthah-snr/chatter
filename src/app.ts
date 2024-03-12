@@ -7,6 +7,7 @@ import { AppConfig } from "@configurations/app.config";
 import initializeDatabase from "./v1/database";
 import healthRoute from "./v1/modules/health/health.route";
 import Validator from "validatorjs";
+import cors from "fastify-cors";
 import { baseRoute } from "@v1/modules/sample/routes/base.route";
 import { sampleRoute } from "@v1/modules/sample/routes/sample.route";
 import { RouteVersion } from "@configurations/route.config";
@@ -25,6 +26,7 @@ class App {
 
   constructor() {
     this.app = fastify({ logger: true });
+    this.app.register(cors, { origin: true });
     this.app.register(baseRoute);
     this.app.register(healthRoute);
     this.app.register(sampleRoute, { prefix: RouteVersion.sample });
