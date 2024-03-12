@@ -13,6 +13,9 @@ import { RouteVersion } from "@configurations/route.config";
 import usersRoute from "@v1/modules/users/user.route";
 import PostRoute from "@v1/modules/posts/routes/main.route";
 import commentRoute from "@v1/modules/comments/comment.route";
+import categoryRoute from "@v1/modules/categories/category.route";
+
+
 
 dotenv.config({ path: process.cwd() + "/.env" });
 
@@ -27,7 +30,8 @@ class App {
     this.app.register(sampleRoute, { prefix: RouteVersion.sample });
     this.app.register(usersRoute, {prefix: RouteVersion.user});
     this.app.register(PostRoute, {prefix: RouteVersion.post});
-    this.app.register(commentRoute, {prefix: RouteVersion.comment})
+    this.app.register(commentRoute, {prefix: RouteVersion.comment});
+    this.app.register(categoryRoute, {prefix: RouteVersion.category})
     this.bootstrapDependencies();
     this.listen();
   }

@@ -1,5 +1,8 @@
 import { CategoryRepository } from "@v1/repositories/categories.repositories"
+import { injectable } from "tsyringe"
 
+
+@injectable()
 export default class categoryService{
     constructor(
         private readonly category: CategoryRepository
