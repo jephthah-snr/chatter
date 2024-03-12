@@ -1,11 +1,10 @@
 import { Model } from "objection";
 
 export default class CategoriesModel extends Model{
-    static tableName = 'followers';
+    static tableName = 'categories';
 
     id!: string;
-    userId!: string;
-    followerId!: string
+    name!: string
     created_at!: Date;
     updated_at?: Date;
 
