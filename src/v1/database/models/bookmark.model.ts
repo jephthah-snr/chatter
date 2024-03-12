@@ -12,12 +12,12 @@ export default class bookmarkModel extends Model{
 
     static get relationMappings() {
         return {
-          post: {
+          posts: {
             relation: Model.BelongsToOneRelation,
             modelClass: PostModel,
             join: {
               from: "bookmarks.postId",
-              to: "post.id",
+              to: "posts.id",
             },
           },
         };

@@ -7,7 +7,7 @@ export class BookmarkRepository{
     };
     
     public async findByUser(id: string, trx?: Transaction) {
-        return await bookmarkModel.query(trx).where({userId: id}).first();
+        return await bookmarkModel.query(trx).where({userId: id}).withGraphFetched({'posts': true});
     };
 
     public async findById(id: string, trx?: Transaction) {
