@@ -22,7 +22,8 @@ export default class UserService{
      return users
     }
 
-    public async userLogin(payload: {email: string, password: string}): Promise<string>{
+
+    public async userlogin(payload: {email: string, password: string}): Promise<string>{
         try {
             console.log(payload)
             const user = await this.userRepo.findUserByEmail(payload.email)
@@ -36,15 +37,17 @@ export default class UserService{
             const token = await signToken({id: user.id})
 
             return token
-        } catch (error: any) {
-            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+        } catch (error) {
+          throw error;
         }
-    }
-
+      }
 
     public async register(payload: any){
         try {
+
             const exists = await this.userRepo.findUserByEmail(payload.email);
+
+            //ceck if user name exists
     
             if(exists) {
                 throw new AppError(httpStatus.CONFLICT, "Email already used, try another");
@@ -53,7 +56,7 @@ export default class UserService{
             const hashedPassword = await this.passwordHelper.hashPassword(payload.password);
     
             const newUserPayload = { ...payload, password: hashedPassword };
-    
+            //console.log(newUserPayload)
             const user = await this.userRepo.saveUser(newUserPayload);
 
             delete user.password;

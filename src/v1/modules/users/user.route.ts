@@ -22,7 +22,7 @@ const usersRoute: FastifyPluginAsync = async (fastify) => {
         method: Methods.POST,
         preHandler: [],
         onRequest: [],
-        handler: controller.login
+        handler: controller.register
     });
 
     // fastify.route({

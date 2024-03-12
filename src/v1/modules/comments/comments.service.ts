@@ -1,9 +1,10 @@
 import AppError from "@shared/utils/error.utils";
 import httpStatus from "http-status";
 import { CommentModelReposory } from "@v1/repositories/comments.repository";
+import { injectable } from "tsyringe";
 
 
-
+@injectable()
 export default class commentService{
     constructor(
         private commentRepo: CommentModelReposory

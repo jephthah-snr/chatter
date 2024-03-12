@@ -33,7 +33,7 @@ export default class PostModel extends Model{
             modelClass: CommentModel,
             join: {
               from: "posts.id",
-              to: "comment.postId",
+              to: "comments.postId",
             },
           },
 

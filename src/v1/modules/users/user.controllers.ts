@@ -3,24 +3,23 @@ import UserService from "./users.service";
 import logger from "@shared/utils/logger";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { ErrorResponse, SuccessResponse } from "@shared/utils/response.util";
+import httpStatus from "http-status";
+
+
+//const userService = container.resolve(UserService);
 
 @injectable()
 export default class UserController {
-  private readonly userService: UserService
+  constructor(
+    private readonly userService: UserService
+  ){}
 
-  login = async (
-    req: FastifyRequest, reply: FastifyReply
-  ) => {
-    try {
-      const response = await this.userService.userLogin((req as any).body)
+  public login = async (req: FastifyRequest, res: FastifyReply) => {
+    const payload = (req as any).body
+    const response = await this.userService.userlogin(payload);
 
-      return reply.send(SuccessResponse("User logged in successfully", {token: response}));
-    } catch (error: any) {
-      logger.error({ error });
-
-      return reply.send(ErrorResponse(error.message));
-    }
-  };
+    return res.status(httpStatus.OK).send(SuccessResponse("user logged in successfully", response))
+}
 
   register = async (
     req: FastifyRequest, reply: FastifyReply

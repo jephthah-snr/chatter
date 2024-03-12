@@ -7,11 +7,11 @@ export class PostRepository{
     };
     
     public async findPostById(id: string, trx?: Transaction) {
-        return await PostModel.query(trx).where({id}).withGraphFetched({'comments': true}).first();
+        return await PostModel.query(trx).findById(id).first();
     };
 
-    public async updatePost(id: string, payload: Partial<PostModel>, trx?: Transaction){
-        await PostModel.query(trx).where({id}).update(payload);
+    public async updatePost(id: string, payload: any, trx?: Transaction){
+        return await PostModel.query(trx).findById(id).update(payload);
     };
 
     public async savePost(payload: Partial<PostModel>, trx?: Transaction){

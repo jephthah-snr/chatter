@@ -6,8 +6,9 @@ export class UserRepository{
         return await UserModel.query().withGraphFetched({'posts': true});
     };
     
-    public async findUserById(deviceId: string, trx?: Transaction) {
-        return await UserModel.query(trx).where({deviceId}).withGraphFetched({'posts': true}).first();
+    public async findUserById(id: string, trx?: Transaction) {
+        console.log("searching by Id...", id)
+        return await UserModel.query(trx).findById(id)
     };
 
     public async findUserByEmail(email: string, trx?: Transaction) {
@@ -18,7 +19,8 @@ export class UserRepository{
         await UserModel.query(trx).where({deviceId}).update(payload);
     };
 
-    public async saveUser(payload: Partial<UserModel>, trx?: Transaction){
+    public async saveUser(payload: any, trx?: Transaction){
+        console.log(payload)
         return await UserModel.query(trx).insert(payload)
     }
 

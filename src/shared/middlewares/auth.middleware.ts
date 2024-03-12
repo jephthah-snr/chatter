@@ -19,6 +19,7 @@ const authMiddleware = async (req: FastifyRequest, res: FastifyReply) => {
 
     const authorization = req.headers.authorization.split(" ");
 
+
     const jwtToken = authorization[1];
 
     const jwtData = await retrieveTokenValue<{ id: string; }>(jwtToken);

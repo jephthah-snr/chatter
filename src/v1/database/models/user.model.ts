@@ -16,21 +16,21 @@ export default class UserModel extends Model{
     updated_at?: Date;
 
 
-    static get jsonSchema() {
-      return {
-        type: 'object',
-        required: [],
+    // static get jsonSchema() {
+    //   return {
+    //     type: 'object',
+    //     required: [],
 
-        id: { type: "string"},
-        first_name: { type: "string"},
-        last_name: { type: "string"},
-        user_name:{ type: "string"},
-        email: { type: "string"},
-        role: { type: "string"},
-        password: { type: "string"},
+    //     id: { type: "string"},
+    //     first_name: { type: "string"},
+    //     last_name: { type: "string"},
+    //     user_name:{ type: "string"},
+    //     email: { type: "string"},
+    //     role: { type: "string"},
+    //     password: { type: "string"},
 
-      }
-    }
+    //   }
+    // }
 
     static get relationMappings() {
         return {

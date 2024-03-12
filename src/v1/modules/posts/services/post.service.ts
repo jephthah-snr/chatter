@@ -6,14 +6,14 @@ import { injectable } from "tsyringe";
 
 
 @injectable()
-export default class SampleService {
+export default class PostService {
   constructor(
     private readonly  postRepo: PostRepository
     ){}
 
   public async addPost(authorId: string, payload: any) {
     try {
-      payload.author = authorId
+      payload.authorId = authorId
       const post =  await this.postRepo.savePost(payload);
       return post
     } catch (error: any) {
@@ -23,13 +23,17 @@ export default class SampleService {
 
   public async updatePost(id: string, payload: ObjectLiteral){
     try {
-      if(!id || payload) throw new AppError(httpStatus.BAD_REQUEST, "invalid update data")
+      if(!id || !payload) throw new AppError(httpStatus.BAD_REQUEST, "invalid update data")
 
       const post = await this.postRepo.findPostById(id)
 
+      console.log(post)
+
       if(!post) throw new AppError(httpStatus.NOT_FOUND, "invalid or malfoemed post id")
 
-      const updated =  await this.postRepo.updatePost(id, payload)
+      const updated =  await this.postRepo.updatePost(id, payload);
+
+      console.log(updated)
 
       return updated
     } catch (error: any) {
@@ -55,7 +59,7 @@ export default class SampleService {
   public async getPostById(id){
     try {
       if(!id)throw new AppError(httpStatus.BAD_REQUEST, "invlid data")
-      const post = await this.postRepo.getPosts();
+      const post = await this.postRepo.findPostById(id);
 
       if(!post) {
         return []
