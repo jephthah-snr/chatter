@@ -10,6 +10,14 @@ export class BookmarkRepository{
         return await bookmarkModel.query(trx).where({userId: id}).first();
     };
 
+    public async findById(id: string, trx?: Transaction) {
+        return await bookmarkModel.query(trx).where({id}).first();
+    };
+
+    public async checkExists(payload: any, trx?: Transaction) {
+        return await bookmarkModel.query(trx).where({userId: payload.userId, postId: payload.postId}).first();
+    };
+
     public async update(deviceId: string, payload: Partial<bookmarkModel>, trx?: Transaction){
         await bookmarkModel.query(trx).where({deviceId}).update(payload);
     };
@@ -19,6 +27,6 @@ export class BookmarkRepository{
     }
 
     public async delete(id: string, trx?:Transaction){
-        return await bookmarkModel.query(trx).deleteById(id)
+        return await bookmarkModel.query(trx).findById(id).delete()
     }
 }

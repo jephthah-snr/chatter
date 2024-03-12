@@ -26,7 +26,7 @@ const bookmarkRoute: FastifyPluginAsync = async (fastify) => {
     });
 
     fastify.route({
-        url: "/remove-bookmark/:id",
+        url: "/get-bookmarks",
         method: Methods.GET,
         preHandler: [],
         onRequest: [authMiddleware],
