@@ -19,14 +19,22 @@ const categoryRoute: FastifyPluginAsync = async (fastify) => {
         handler: controller.addCategory
     })
     
+    fastify.route({
+        url: "/all",
+        method: Methods.GET,
+        preHandler: [],
+        onRequest: [authMiddleware],
+        handler: controller.findAllCategories
+    })
 
-    // fastify.route({
-    //     url: "/remove-comment/:id",
-    //     method: Methods.DELETE,
-    //     preHandler: [],
-    //     onRequest: [authMiddleware],
-    //     handler: controller.deleteComment
-    // });
+
+    fastify.route({
+        url: "/all",
+        method: Methods.POST,
+        preHandler: [],
+        onRequest: [authMiddleware],
+        handler: controller.getCategory
+    })
 }
 
 export default categoryRoute

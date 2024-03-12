@@ -20,6 +20,19 @@ export default class CategoryController {
     return res.status(httpStatus.OK).send(SuccessResponse("comment added", response))
 }
 
+public findAllCategories = async (req: FastifyRequest, res: FastifyReply) => {
+
+  const response = await this.userService.getAllCategories();
+
+  return res.status(httpStatus.OK).send(SuccessResponse("comment added", response))
+}
+
+public getCategory = async (req: FastifyRequest, res: FastifyReply) => {
+  const categoryId = (req as any).params.id
+  const response = await this.userService.getCategory(categoryId);
+
+  return res.status(httpStatus.OK).send(SuccessResponse("comment added", response))
+}
 //   deleteComment = async (
 //     req: FastifyRequest, reply: FastifyReply
 //   ) => {

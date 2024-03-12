@@ -24,4 +24,12 @@ export default class bookMArkService{
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
         }
     }
+
+    public async showBookmarks(id: string){
+        try {
+           return await this.bookmarkrepo.findByUser(id)
+        } catch (error: any) {
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+        }
+    }
 }

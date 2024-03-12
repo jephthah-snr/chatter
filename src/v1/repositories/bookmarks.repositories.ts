@@ -6,8 +6,8 @@ export class BookmarkRepository{
         return await bookmarkModel.query().withGraphFetched({'posts': true});
     };
     
-    public async findById(id: string, trx?: Transaction) {
-        return await bookmarkModel.query(trx).where({id}).first();
+    public async findByUser(id: string, trx?: Transaction) {
+        return await bookmarkModel.query(trx).where({userId: id}).first();
     };
 
     public async update(deviceId: string, payload: Partial<bookmarkModel>, trx?: Transaction){

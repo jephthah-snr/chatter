@@ -5,5 +5,6 @@ export enum RouteVersion {
   "sample" = "api/v1/sample",
   "comment" = "api/v1/comment",
   "category" = "api/v1/category",
+  "bookmark" = "api/v1/bookmark",
   "healthRoute" = "api/v1/health",
 }
