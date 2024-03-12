@@ -2,7 +2,7 @@ import PostModel from "@v1/database/models/post.model";
 import { Transaction } from "objection";
 
 export class PostRepository{
-    public async findUsers() {
+    public async getPosts() {
         return await PostModel.query().withGraphFetched({'comments': true});
     };
     
@@ -18,7 +18,11 @@ export class PostRepository{
         return await PostModel.query(trx).insert(payload)
     }
 
-    public async deletePost(id: string, trx:Transaction){
+    public async deletePost(id: string, trx?:Transaction){
         return await PostModel.query(trx).deleteById(id)
+    }
+
+    public async getPostByUser(authorId: string, trx?: Transaction){
+        return await PostModel.query(trx).where({authorId})
     }
 }

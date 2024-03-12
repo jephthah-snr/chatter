@@ -1,7 +1,7 @@
 import bookmarkModel from "@v1/database/models/bookmark.model";
 import { Transaction } from "objection";
 
-export class CategoryRepository{
+export class BookmarkRepository{
     public async findUsers() {
         return await bookmarkModel.query().withGraphFetched({'posts': true});
     };
@@ -18,7 +18,7 @@ export class CategoryRepository{
         return await bookmarkModel.query(trx).insert(payload)
     }
 
-    public async delete(id: string, trx:Transaction){
+    public async delete(id: string, trx?:Transaction){
         return await bookmarkModel.query(trx).deleteById(id)
     }
 }

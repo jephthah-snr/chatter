@@ -15,7 +15,7 @@ export class CommentModelReposory{
         return await CommentModel.query(trx).insert(payload)
     }
 
-    public async delete(id: string, trx:Transaction){
+    public async delete(id: string, trx?:Transaction){
         return await CommentModel.query(trx).deleteById(id)
     }
 }
