@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
 import { FastifyPluginAsync } from "fastify";
 import { Methods } from "@shared/enum/methods.enum";
-//import authMiddleware from "@shared/middlewares/auth.middleware";
+import authMiddleware from "@shared/middlewares/auth.middleware";
 import UserController from "./user.controllers";
 
 
@@ -25,13 +25,13 @@ const usersRoute: FastifyPluginAsync = async (fastify) => {
         handler: controller.register
     });
 
-    // fastify.route({
-    //     url: "/login",
-    //     method: Methods.POST,
-    //     preHandler: [],
-    //     onRequest: authMiddleware,
-    //     handler: controller.login
-    // });
+    fastify.route({
+        url: "/profile",
+        method: Methods.GET,
+        preHandler: [],
+        onRequest: authMiddleware,
+        handler: controller.userProfile
+    });
 }
 
 export default usersRoute

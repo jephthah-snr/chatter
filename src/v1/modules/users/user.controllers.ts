@@ -35,17 +35,18 @@ export default class UserController {
     }
   };
 
-//   login = async (
-//     req: FastifyRequest, reply: FastifyReply
-//   ) => {
-//     try {
-//       const response = await this.userService.userLogin((req as any).body)
+  userProfile = async (
+    req: FastifyRequest, reply: FastifyReply
+  ) => {
+    try {
+      const userId = (req as any).user.id
+      const response = await this.userService.getUserData(userId)
 
-//       return reply.send(SuccessResponse("User logged in successfully", {token: response}));
-//     } catch (error: any) {
-//       logger.error({ error });
+      return reply.send(SuccessResponse("User profile", response));
+    } catch (error: any) {
+      logger.error({ error });
 
-//       return reply.send(ErrorResponse(error.message));
-//     }
-//   };
+      return reply.send(ErrorResponse(error.message));
+    }
+  };
 }

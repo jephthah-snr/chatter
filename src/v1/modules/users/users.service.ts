@@ -68,4 +68,19 @@ export default class UserService{
     }
     
 
+    public async getUserData(userId: string){
+        try {
+            const exists = await this.userRepo.findUserById(userId);
+
+            if(!exists){
+                throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
+            }
+
+            delete(exists.password)
+
+            return exists
+        } catch (error) {
+            throw error
+        }
+    }
 }
