@@ -5,7 +5,7 @@ export default class followersModel extends Model{
 
     id!: string;
     userId!: string;
-    followerId!: string
+    followerId!: string;
     created_at!: Date;
     updated_at?: Date;
 

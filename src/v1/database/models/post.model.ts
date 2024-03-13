@@ -2,6 +2,8 @@ import { Model } from "objection";
 import UserModel from "./user.model";
 import CommentModel from "./comments.model";
 import likesModel from "./likes.model";
+import bookmarkModel from "./bookmark.model";
+
 
 export default class PostModel extends Model{
     static tableName = 'posts';
@@ -19,7 +21,7 @@ export default class PostModel extends Model{
 
     static get relationMappings() {
         return {
-          user: {
+          author: {
             relation: Model.BelongsToOneRelation,
             modelClass: UserModel,
             join: {
@@ -29,7 +31,7 @@ export default class PostModel extends Model{
           },
 
           comments: {
-            relation: Model.BelongsToOneRelation,
+            relation: Model.HasManyRelation,
             modelClass: CommentModel,
             join: {
               from: "posts.id",
@@ -38,7 +40,7 @@ export default class PostModel extends Model{
           },
 
           likes: {
-            relation: Model.BelongsToOneRelation,
+            relation: Model.HasManyRelation,
             modelClass: likesModel,
             join: {
               from: "posts.id",
@@ -47,8 +49,8 @@ export default class PostModel extends Model{
           },
 
           bookmarks: {
-            relation: Model.BelongsToOneRelation,
-            modelClass: CommentModel,
+            relation: Model.HasManyRelation,
+            modelClass: bookmarkModel,
             join: {
               from: "posts.id",
               to: "bookmarks.postId",

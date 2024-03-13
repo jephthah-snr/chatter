@@ -14,12 +14,18 @@ export default class FollowersService {
 
   public async followUser(payload: any) {
     try {
-        const user = await this.userRepo.findUserById(payload.userId)
+        const user = await this.userRepo.findUserById(payload.followerId)
         if(!user){
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
-        await this.followersRepo.addFollowing(payload)
+        if(payload.followerId === payload.userId) throw new AppError(httpStatus.BAD_REQUEST, "Users are not allowrd to follow themselves, we don to that here")
+
+        const alreadyFollowing = await this.followersRepo.CheckFollowing(payload)
+
+        if(alreadyFollowing) throw new AppError(httpStatus.CONFLICT, 'you are already following this account');
+
+        return await this.followersRepo.addFollowing(payload)
     } catch (error: any) {
       throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
     }
@@ -63,8 +69,8 @@ export default class FollowersService {
         if(!user){
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
-
-        const followers = await this.followersRepo.getFollowing(userId)
+    
+        const followers = await this.followersRepo.getFollowing(user.id)
 
         if(!followers){
             return []

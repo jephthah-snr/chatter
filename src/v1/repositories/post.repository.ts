@@ -3,11 +3,11 @@ import { Transaction } from "objection";
 
 export class PostRepository{
     public async getPosts() {
-        return await PostModel.query().withGraphFetched({'comments': true});
+        return await PostModel.query().withGraphFetched({'comments': true, author: true, likes: true, bookmarks: true});
     };
     
     public async findPostById(id: string, trx?: Transaction) {
-        return await PostModel.query(trx).findById(id).first();
+        return await PostModel.query(trx).findById(id).first().withGraphFetched({'comments': true, author: true, likes: true, bookmarks: true});
     };
 
     public async updatePost(id: string, payload: any, trx?: Transaction){

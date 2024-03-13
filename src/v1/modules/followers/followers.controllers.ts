@@ -14,11 +14,11 @@ export default class FollowersController {
   ){}
 
     public follow = async (req: FastifyRequest, res: FastifyReply) => {
-        const userid = (req as any).user.id
+        const userId = (req as any).user.id
         const followerId =(req as any).params.id
         const payload = {
-            userId: userid,
-            followerId: followerId,
+            userId: followerId,
+            followerId: userId,
         }
         const response = await this.followersService.followUser(payload);
 
