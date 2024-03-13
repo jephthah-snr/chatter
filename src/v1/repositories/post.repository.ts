@@ -25,4 +25,5 @@ export class PostRepository{
     public async getPostByUser(authorId: string, trx?: Transaction){
         return await PostModel.query(trx).where({authorId})
     }
+    
 }

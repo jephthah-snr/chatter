@@ -48,6 +48,15 @@ const PostRoute: FastifyPluginAsync = async (fastify) => {
         onRequest: authMiddleware,
         handler: controller.updatePost
     });
+
+    fastify.route({
+        url: "/update-view/:id",
+        method: Methods.PUT,
+        preHandler: [],
+        onRequest: authMiddleware,
+        handler: controller.updatePostViews
+    });
+    
 }
 
 export default PostRoute

@@ -4,7 +4,7 @@ import { LikesRepository } from "@v1/repositories/likes.reposirory";
 import { injectable } from "tsyringe";
 
 @injectable()
-export default class bookMArkService{
+export default class LikesService{
     constructor(
         private readonly likesRepository: LikesRepository
     ){}
@@ -24,12 +24,12 @@ export default class bookMArkService{
 
     public async unlikepost(payload: any){
         try {
-            const bookmark = await this.likesRepository.check(payload.id);
-            console.log(bookmark)
-            if(!bookmark){
-                throw new AppError(httpStatus.NOT_ACCEPTABLE, "invalid or malformed data passed as bookmark")
+            console.log(payload)
+            const likeData = await this.likesRepository.check({postId: payload.postId, userId: payload.userId});
+            if(likeData){
+                await this.likesRepository.unlike(likeData.id)
             }
-            await this.likesRepository.unlike(payload.id)
+          
         } catch (error: any) {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
         }

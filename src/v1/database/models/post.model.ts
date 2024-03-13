@@ -15,6 +15,9 @@ export default class PostModel extends Model{
     likes!: string;
     authorId!: string;
     comments!: string;
+    views!: number;
+    duration!: number;
+    slug!: string
     bookmarks!: string;
     created_at?: Date;
     updated_at?: Date;

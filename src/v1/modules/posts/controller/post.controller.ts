@@ -52,5 +52,11 @@ public getAuthorPosts = async (req: FastifyRequest, res: FastifyReply) => {
     return res.status(httpStatus.OK).send(SuccessResponse("new post added", response))
 }
 
+public updatePostViews = async (req: FastifyRequest, res: FastifyReply) => {
+    const id = (req as any).params.id
+    const response = await this.userService.updatePostViews(id);
+
+    return res.status(httpStatus.OK).send(SuccessResponse("new post added", response))
+}
 
 }

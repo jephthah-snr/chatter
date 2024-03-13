@@ -17,7 +17,7 @@ import commentRoute from "@v1/modules/comments/comment.route";
 import categoryRoute from "@v1/modules/categories/category.route";
 import bookmarkRoute from "@v1/modules/bookmark/bookmark.route";
 import followersRoute from "@v1/modules/followers/followers.route";
-
+import likesRoute from "@v1/modules/likes/likes.route";
 
 dotenv.config({ path: process.cwd() + "/.env" });
 
@@ -37,6 +37,7 @@ class App {
     this.app.register(categoryRoute, {prefix: RouteVersion.category});
     this.app.register(bookmarkRoute, { prefix: RouteVersion.bookmark});
     this.app.register(followersRoute, {prefix: RouteVersion.followers});
+    this.app.register(likesRoute, {prefix: RouteVersion.likes});
     this.bootstrapDependencies();
     this.listen();
   }

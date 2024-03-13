@@ -41,6 +41,24 @@ export default class PostService {
     }
   }
 
+  public async updatePostViews(id: string){
+    try {
+     
+      const post = await this.postRepo.findPostById(id)
+      if(!post)throw new AppError(httpStatus.NOT_FOUND, "invalid post")
+      
+      let views = post.views
+
+      views+=1
+
+      const updated =  await this.postRepo.updatePost(id, {views: views});
+
+      return updated
+    } catch (error: any) {
+      throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+    }
+  }
+
   public async getAllPosts(){
     try {
 

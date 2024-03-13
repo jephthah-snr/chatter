@@ -5,6 +5,7 @@ import { injectable } from "tsyringe";
 import PasswordHelper from "@v1/helpers/password.helper";
 import { signToken } from "@shared/utils/jwt.util";
 
+
 @injectable()
 export default class UserService{
     constructor(
@@ -84,15 +85,15 @@ export default class UserService{
         }
     }
 
-    public async followUser(userId: string){
+    public async followUser(followerid: string, followingid: string){
         try {
-            const exists = await this.userRepo.findUserById(userId);
+            const exists = await this.userRepo.findUserById(followingid);
 
             if(!exists){
                 throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
             }
 
-            delete(exists.password)
+            await this.followUser
 
             return exists
         } catch (error) {
