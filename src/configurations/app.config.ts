@@ -6,7 +6,7 @@ dotenv.config();
 export const AppConfig = {
   name: process.env.APP_NAME as string,
   env: getEnv(),
-  port: Number(process.env.APP_PORT),
+  port: Number(process.env.PORT),
   host: process.env.APP_HOST as string,
   key: process.env.APP_KEY as string,
   environment: process.env.APP_ENV as string,
