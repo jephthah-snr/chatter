@@ -83,4 +83,21 @@ export default class UserService{
             throw error
         }
     }
+
+    public async followUser(userId: string){
+        try {
+            const exists = await this.userRepo.findUserById(userId);
+
+            if(!exists){
+                throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
+            }
+
+            delete(exists.password)
+
+            return exists
+        } catch (error) {
+            throw error
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 export const SuccessResponse = <T>(message: string, data: T) => {
   return {
-    status: true,
+    success: true,
     message,
     data,
   };

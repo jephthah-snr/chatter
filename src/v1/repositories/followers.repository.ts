@@ -1,9 +1,9 @@
 import followersModel from "@v1/database/models/followers.model";
 import { Transaction } from "objection";
 
-export class followingRepository{
-    public async getFollowers() {
-        return await followersModel.query().withGraphFetched({'posts': true});
+export class followersRepository{
+    public async getFollowers(userId) {
+        return await followersModel.query().where({userId})
     };
     
     public async findUserById(id: string, trx?: Transaction) {
@@ -15,7 +15,7 @@ export class followingRepository{
         return await followersModel.query(trx).insert(payload);
     }
 
-    public async removeFolowing(id: string, trx:Transaction){
-        return await followersModel.query(trx).deleteById(id);
+    public async removeFolowing(payload: any, trx?:Transaction){
+        return await followersModel.query(trx).where({userId: payload.userId,  followerId:payload.followerId}).delete()
     }
 }

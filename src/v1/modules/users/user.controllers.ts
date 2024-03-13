@@ -27,7 +27,7 @@ export default class UserController {
     try {
       const response = await this.userService.register((req as any).body)
 
-      return reply.send(SuccessResponse("User logged in successfully", response));
+      return reply.send(SuccessResponse("User registration successful", response));
     } catch (error: any) {
       logger.error({ error });
 
