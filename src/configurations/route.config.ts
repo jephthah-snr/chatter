@@ -8,5 +8,6 @@ export enum RouteVersion {
   "bookmark" = "api/v1/bookmark",
   "followers" = "api/v1/followers",
   "likes" = "api/v1/likes",
+  "search" = "api/v1/search",
   "healthRoute" = "api/v1/health",
 }
