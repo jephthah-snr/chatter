@@ -6,7 +6,7 @@ import { injectable } from "tsyringe";
 
 
 @injectable()
-export default class followersService {
+export default class FollowersService {
   constructor(
     private readonly  followersRepo: followersRepository,
     private readonly  userRepo: UserRepository
@@ -15,7 +15,7 @@ export default class followersService {
   public async followUser(payload: any) {
     try {
         const user = await this.userRepo.findUserById(payload.userId)
-        if(user){
+        if(!user){
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
@@ -27,8 +27,8 @@ export default class followersService {
 
   public async unfollow(payload: any) {
     try {
-        const user = await this.userRepo.findUserById(payload.userId)
-        if(user){
+        const user = await this.userRepo.findUserById(payload.followerId)
+        if(!user){
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
@@ -41,11 +41,11 @@ export default class followersService {
   public async getFollowers(userId: any) {
     try {
         const user = await this.userRepo.findUserById(userId)
-        if(user){
+        if(!user){
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
-        const followers = await this.followersRepo.addFollowing(userId)
+        const followers = await this.followersRepo.getFollowers(userId)
 
         if(!followers){
             return []
@@ -57,4 +57,22 @@ export default class followersService {
     }
   }
 
+  public async getFollowing(userId: any) {
+    try {
+        const user = await this.userRepo.findUserById(userId)
+        if(!user){
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
+        }
+
+        const followers = await this.followersRepo.getFollowing(userId)
+
+        if(!followers){
+            return []
+        }
+
+        return followers
+    } catch (error: any) {
+      throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+    }
+  }
 }

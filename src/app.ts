@@ -16,6 +16,7 @@ import PostRoute from "@v1/modules/posts/routes/main.route";
 import commentRoute from "@v1/modules/comments/comment.route";
 import categoryRoute from "@v1/modules/categories/category.route";
 import bookmarkRoute from "@v1/modules/bookmark/bookmark.route";
+import followersRoute from "@v1/modules/followers/followers.route";
 
 
 dotenv.config({ path: process.cwd() + "/.env" });
@@ -33,8 +34,9 @@ class App {
     this.app.register(usersRoute, {prefix: RouteVersion.user});
     this.app.register(PostRoute, {prefix: RouteVersion.post});
     this.app.register(commentRoute, {prefix: RouteVersion.comment});
-    this.app.register(categoryRoute, {prefix: RouteVersion.category})
-    this.app.register(bookmarkRoute, { prefix: RouteVersion.bookmark})
+    this.app.register(categoryRoute, {prefix: RouteVersion.category});
+    this.app.register(bookmarkRoute, { prefix: RouteVersion.bookmark});
+    this.app.register(followersRoute, {prefix: RouteVersion.followers});
     this.bootstrapDependencies();
     this.listen();
   }

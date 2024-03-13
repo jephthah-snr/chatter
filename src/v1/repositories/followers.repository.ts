@@ -18,4 +18,8 @@ export class followersRepository{
     public async removeFolowing(payload: any, trx?:Transaction){
         return await followersModel.query(trx).where({userId: payload.userId,  followerId:payload.followerId}).delete()
     }
+
+    public async getFollowing(userId: any, trx?:Transaction){
+        return await followersModel.query(trx).where({followerId: userId}).delete()
+    }
 }
