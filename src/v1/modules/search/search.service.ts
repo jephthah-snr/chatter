@@ -16,7 +16,8 @@ class SearchService {
     try {
       const products = await PostModel.query()
         .where((builder) => {
-          builder.where('name', 'ilike', `%${query}%`);
+          builder.where('title', 'ilike', `%${query}%`)
+          .orWhere('content', 'ilike', `%${query}%`);
         });
 
       if (!products.length) {
@@ -40,7 +41,8 @@ class SearchService {
     const drivers = await UserModel.query()
     .where(builder => {
       builder.where('first_name', 'ilike', `%${query}%`)
-             .orWhere('last_name', 'ilike', `%${query}%`);
+             .orWhere('last_name', 'ilike', `%${query}%`)
+             .orWhere('user_name', 'ilike', `%${query}%`);
     });
   
 
