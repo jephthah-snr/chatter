@@ -15,9 +15,9 @@ export default class UserModel extends Model{
     created_at?: Date;
     updated_at?: Date;
 
-    async $afterFind() {
-      delete(this.password)
-    }
+    // async $afterFind() {
+    //   delete(this.password)
+    // }
     // static get jsonSchema() {
     //   return {
     //     type: 'object',
