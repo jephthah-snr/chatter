@@ -1,4 +1,4 @@
-import { Model } from "objection";
+import { Model, QueryContext } from "objection";
 import UserModel from "./user.model";
 import CommentModel from "./comments.model";
 import likesModel from "./likes.model";
@@ -21,6 +21,17 @@ export default class PostModel extends Model{
     bookmarks!: string;
     created_at?: Date;
     updated_at?: Date;
+    tags!: string;
+    excerpt!: string;
+    categories!: string;
+
+    $beforeInsert(queryContext: QueryContext): void | Promise<any> {
+        this.tags = JSON.stringify(this.tags)
+    }
+
+    $afterFind(queryContext: QueryContext): void | Promise<any> {
+      this.tags = JSON.parse(this.tags)
+    }
 
     static get relationMappings() {
         return {

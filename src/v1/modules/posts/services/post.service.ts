@@ -3,7 +3,7 @@ import AppError from "@shared/utils/error.utils";
 import { PostRepository } from "@v1/repositories/post.repository";
 import httpStatus from "http-status";
 import { injectable } from "tsyringe";
-
+import { uploader } from "@shared/utils/imageUpload.util";
 
 @injectable()
 export default class PostService {
@@ -13,7 +13,10 @@ export default class PostService {
 
   public async addPost(authorId: string, payload: any) {
     try {
+      const imageUrl = await uploader(payload.imageUrl, `${payload.title}`)
+      console.log(imageUrl)
       payload.authorId = authorId
+      payload.imageUrl = imageUrl.secure_url
       const post =  await this.postRepo.savePost(payload);
       return post
     } catch (error: any) {
