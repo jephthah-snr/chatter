@@ -146,7 +146,7 @@ export default class UserService{
 
             console.log(secure_url)
 
-             const data = await this.userRepo.updateUser(user.id, {imageUrl: "rdvsdfvfbvsf"});
+             const data = await this.userRepo.updateUser(user.id, {imageUrl: secure_url});
 
              return data
         } catch (error) {
