@@ -4,13 +4,16 @@ import httpStatus from "http-status";
 import { injectable } from "tsyringe";
 import PasswordHelper from "@v1/helpers/password.helper";
 import { signToken } from "@shared/utils/jwt.util";
+import FollowersService from "../followers/followers.service";
+
 
 
 @injectable()
 export default class UserService{
     constructor(
         private readonly userRepo: UserRepository,
-        private readonly passwordHelper: PasswordHelper
+        private readonly passwordHelper: PasswordHelper,
+        private readonly followersService:FollowersService
     ){};
 
     public async findAll(): Promise<any[]>{
@@ -45,12 +48,16 @@ export default class UserService{
     public async register(payload: any){
         try {
 
-            const exists = await this.userRepo.findUserByEmail(payload.email);
+            const emailExists = await this.userRepo.findUserByEmail(payload.email);
 
-            //ceck if user name exists
+            const userNameExists = await this.userRepo.findUserByUsername(payload.user_name);
     
-            if(exists) {
+            if(emailExists ?? userNameExists) {
+               if(emailExists){
                 throw new AppError(httpStatus.CONFLICT, "Email already used, try another");
+               }else{
+                throw new AppError(httpStatus.CONFLICT, "UserName already used, try another");
+               }
             }
     
             const hashedPassword = await this.passwordHelper.hashPassword(payload.password);
@@ -78,23 +85,39 @@ export default class UserService{
 
             delete(exists.password)
 
+            await this
+
             return exists
         } catch (error) {
             throw error
         }
     }
 
-    public async followUser(followerid: string, followingid: string){
-        try {
-            const exists = await this.userRepo.findUserById(followingid);
+    // public async followUser(followerid: string, followingid: string){
+    //     try {
+    //         const exists = await this.userRepo.findUserById(followingid);
 
-            if(!exists){
-                throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
+    //         if(!exists){
+    //             throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
+    //         }
+
+    //         await this.followUser
+
+    //         return exists
+    //     } catch (error) {
+    //         throw error
+    //     }
+    //}
+
+    public async findUserByUsername(username: string){
+        try {
+            const userNameExists = await this.userRepo.findUserByUsername(username);
+
+            if(!userNameExists){
+                throw new AppError(httpStatus.NOT_FOUND, "user not found")
             }
 
-            await this.followUser
-
-            return exists
+            return userNameExists
         } catch (error) {
             throw error
         }

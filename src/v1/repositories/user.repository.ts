@@ -15,6 +15,10 @@ export class UserRepository{
         return await UserModel.query(trx).where({email}).first();
     };
 
+    public async findUserByUsername(user_name: string, trx?: Transaction) {
+        return await UserModel.query(trx).where({user_name}).first();
+    };
+
     public async udateuser(deviceId: string, payload: Partial<UserModel>, trx?: Transaction){
         await UserModel.query(trx).where({deviceId}).update(payload);
     };
