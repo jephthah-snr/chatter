@@ -41,4 +41,19 @@ export default class CommentController {
       return reply.send(ErrorResponse(error.message));
     }
   };
+
+  getPostComment = async (
+    req: FastifyRequest, reply: FastifyReply
+  ) => {
+    try {
+      const response = await this.userService.getPostComment((req as any).params.id)
+
+      return reply.send(SuccessResponse("comment deleted successfully", response));
+    } catch (error: any) {
+      logger.error({ error });
+
+      return reply.send(ErrorResponse(error.message));
+    }
+  };
+
 }

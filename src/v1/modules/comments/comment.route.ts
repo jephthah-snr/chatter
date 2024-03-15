@@ -25,6 +25,15 @@ const commentRoute: FastifyPluginAsync = async (fastify) => {
         onRequest: [authMiddleware],
         handler: controller.deleteComment
     });
+
+    fastify.route({
+        url: "/post-comment/:id",
+        method: Methods.GET,
+        preHandler: [],
+        onRequest: [authMiddleware],
+        handler: controller.getPostComment
+    });
+    
 }
 
 export default commentRoute

@@ -11,6 +11,10 @@ export class CommentModelReposory{
     };
 
 
+    public async findByPost(id: string, trx?: Transaction) {
+        return await CommentModel.query(trx).where({postId: id}).withGraphFetched({users: true})
+    };
+
     public async save(payload: Partial<CommentModel>, trx?: Transaction){
         return await CommentModel.query(trx).insert(payload)
     }

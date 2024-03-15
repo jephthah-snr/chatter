@@ -8,7 +8,7 @@ const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
 module.exports = {
   development: {
-    client: "postgres",
+    client: 'postgres',
     connection: {
       host: DB_HOST,
       port: DB_PORT,

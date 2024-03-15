@@ -26,4 +26,12 @@ export default class commentService{
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
         }
     }
+
+    public async getPostComment(commentId: string){
+        try {
+            return await this.commentRepo.findByPost(commentId)
+        } catch (error: any) {
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+        }
+    }
 }

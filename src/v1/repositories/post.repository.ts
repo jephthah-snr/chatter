@@ -5,47 +5,45 @@ import knex from "knex";
 
 
 export class PostRepository{
-//     public async getPosts() {
-//         return await PostModel.query().withGraphFetched({
-//             comments: {
-//                 users: true // Fetch the user who made the comment
-//             },
-//             author: true,
-//             likes: true,
-//             bookmarks: true
-//         });
-//     };
+    public async getPosts() {
+        return await PostModel.query().withGraphFetched({
+            "comments": true,
+            author: true,
+            likes: true,
+            bookmarks: true
+        });
+    };
 
-    async getPosts() {
-        try {
-          const driverDistanceQuery = `
-          SELECT 
-          posts.*, 
-          comments.*, 
-          users.*, 
-          likes.*, 
-          bookmarks.*
-      FROM 
-          posts
-      LEFT JOIN 
-          comments ON posts.id = comments.post_id
-      LEFT JOIN 
-          users ON comments.user_id = users.id
-      LEFT JOIN 
-          likes ON posts.id = likes.post_id
-      LEFT JOIN 
-          bookmarks ON posts.id = bookmarks.post_id
-      WHERE 
-          posts.title LIKE ?
-  `;
+//     async getPosts() {
+//         try {
+//           const driverDistanceQuery = `
+//           SELECT 
+//           posts.*, 
+//           comments.*, 
+//           users.*, 
+//           likes.*, 
+//           bookmarks.*
+//       FROM 
+//           posts
+//       LEFT JOIN 
+//           comments ON posts.id = comments.post_id
+//       LEFT JOIN 
+//           users ON comments.user_id = users.id
+//       LEFT JOIN 
+//           likes ON posts.id = likes.post_id
+//       LEFT JOIN 
+//           bookmarks ON posts.id = bookmarks.post_id
+//       WHERE 
+//           posts.title LIKE ?
+//   `;
       
-          const response = await this.rawQuery(driverDistanceQuery);
-          return response;
-        } catch (error) {
-          console.error('Error fetching drivers:', error);
-          throw error;
-        }
-      }
+//           const response = await this.rawQuery(driverDistanceQuery);
+//           return response;
+//         } catch (error) {
+//           console.error('Error fetching drivers:', error);
+//           throw error;
+//         }
+//       }
       
       async rawQuery(query: string) {
         const db = knex(knexConfig);
