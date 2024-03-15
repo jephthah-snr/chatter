@@ -49,4 +49,28 @@ export default class UserController {
       return reply.send(ErrorResponse(error.message));
     }
   };
+
+  userProfileImage = async (
+    req: FastifyRequest, reply: FastifyReply
+  ) => {
+    try {
+      const body = (req as any).body.image
+      const userId = (req as any).user.id
+      const response = await this.userService.updateProfuleImage(userId, body)
+
+      return reply.send(SuccessResponse("User profile", response));
+    } catch (error: any) {
+      logger.error({ error });
+
+      return reply.send(ErrorResponse(error.message));
+    }
+  };
+
+  searchUserbyUsername = async (req: FastifyRequest, res: FastifyReply) => {
+    const query = (req as any).query.q
+
+    const result = await  this.userService.findUserByUsername(query);
+
+    return res.status(httpStatus.OK).send(SuccessResponse(`user found`, result))
+}
 }

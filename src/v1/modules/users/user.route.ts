@@ -32,6 +32,22 @@ const usersRoute: FastifyPluginAsync = async (fastify) => {
         onRequest: authMiddleware,
         handler: controller.userProfile
     });
+
+    fastify.route({
+        url: "/profile/image-update",
+        method: Methods.PUT,
+        preHandler: [],
+        onRequest: authMiddleware,
+        handler: controller.userProfileImage
+    });
+
+    fastify.route({
+        url: "/profile/username",
+        method: Methods.GET,
+        preHandler: [],
+        onRequest: authMiddleware,
+        handler: controller.searchUserbyUsername
+    });
 }
 
 export default usersRoute

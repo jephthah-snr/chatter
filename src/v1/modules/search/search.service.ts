@@ -14,17 +14,21 @@ class SearchService {
     }
 
     try {
-      const products = await PostModel.query()
-        .where((builder) => {
-          builder.where('title', 'ilike', `%${query}%`)
-          .orWhere('content', 'ilike', `%${query}%`);
-        });
-
-      if (!products.length) {
-        throw new AppError(httpStatus.NOT_FOUND, `Search for post "${query}" was not found.`);
-      }
-
-      return products;
+      const [posts, users] = await Promise.all([
+        PostModel.query().where(builder =>  {builder.where('title', 'ilike', `%${query}%`)
+        .orWhere('content', 'ilike', `%${query}%`)
+        .orWhere('tags', 'ilike', `%${query}%`)
+        .orWhere('category', 'ilike', `%${query}%`)
+      }),
+        UserModel.query().where(builder => {
+            builder.where('user_name', 'ilike', `%${query}%`)
+                   .orWhere('last_name', 'ilike', `%${query}%`)
+                   .orWhere('first_name', 'ilike', `%${query}%`);
+        })
+    ]);
+    
+      
+      return { posts, users };
     } catch (error) {
       console.error('Error performing product search:', error);
       throw new AppError(httpStatus.NOT_FOUND, `Search for post "${query}" was not found.`);

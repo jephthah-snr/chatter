@@ -16,5 +16,22 @@ export const AppConfig = {
     username: process.env.REDIS_USERNAME as string,
     password: process.env.REDIS_PASSWORD as string,
   },
-  database: process.env.DATABASE_URL as string,
+  database: {
+    client: process.env.DB_CLIENT || 'mysql2',
+    connection: {
+      host: process.env.DB_HOST,
+      database: process.env.DB_DATABASE as string,
+      user: process.env.DB_USERNAME as string,
+      password: process.env.DB_PASSWORD as string,
+      port: process.env.DB_PORT || undefined,
+      socketPath: process.env.DB_SOCKET,
+    },
+    pool: {
+      min: parseInt(process.env.DB_POOL_MIN as string) || 2,
+      max: parseInt(process.env.DB_POOL_MAX as string) || 10,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+    },
+  }
 };

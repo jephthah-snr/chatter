@@ -19,7 +19,7 @@ export class UserRepository{
         return await UserModel.query(trx).where({user_name}).first();
     };
 
-    public async updateuser(deviceId: string, payload: Partial<UserModel>, trx?: Transaction){
+    public async updateUser(deviceId: string, payload: Partial<UserModel>, trx?: Transaction){
         await UserModel.query(trx).where({deviceId}).update(payload);
     };
 

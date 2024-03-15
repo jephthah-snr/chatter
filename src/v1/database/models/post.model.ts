@@ -44,6 +44,15 @@ export default class PostModel extends Model{
             },
           },
 
+          users: {
+            relation: Model.BelongsToOneRelation,
+            modelClass: UserModel,
+            join: {
+              from: "posts.comments.user.id",
+              to: "users.id",
+            },
+          },
+
           comments: {
             relation: Model.HasManyRelation,
             modelClass: CommentModel,

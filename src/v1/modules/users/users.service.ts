@@ -144,7 +144,9 @@ export default class UserService{
 
             const {secure_url} = await uploader(base64String, `profile-image/${user.user_name}`)
 
-            await this.userRepo.updateuser(user.id, {imageUrl: secure_url})
+             const data = await this.userRepo.updateUser(user.id, {imageUrl: secure_url});
+
+             return data
         } catch (error) {
             return error
         }

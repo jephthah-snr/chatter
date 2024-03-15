@@ -16,7 +16,7 @@ export default class SearchController{
 
         const result = await  this.searchService.SearchPosts(query);
 
-        return res.status(httpStatus.OK).send(SuccessResponse(`search result found ${result.length} posts that match the query`, result))
+        return res.status(httpStatus.OK).send(SuccessResponse(`search result that match the query`, result))
     }
 
     searchUser = async (req: FastifyRequest, res: FastifyReply) => {
