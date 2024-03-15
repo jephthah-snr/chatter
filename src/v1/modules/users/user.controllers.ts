@@ -42,8 +42,6 @@ export default class UserController {
       const userId = (req as any).user.id
       const response = await this.userService.getUserData(userId)
 
-      delete(response.password)
-
       return reply.send(SuccessResponse("User profile", response));
     } catch (error: any) {
       logger.error({ error });

@@ -5,7 +5,8 @@ import { injectable } from "tsyringe";
 import PasswordHelper from "@v1/helpers/password.helper";
 import { signToken } from "@shared/utils/jwt.util";
 import FollowersService from "../followers/followers.service";
-
+import PostService from "../posts/services/post.service";
+import { uploader } from "@shared/utils/imageUpload.util";
 
 
 @injectable()
@@ -13,7 +14,8 @@ export default class UserService{
     constructor(
         private readonly userRepo: UserRepository,
         private readonly passwordHelper: PasswordHelper,
-        private readonly followersService:FollowersService
+        private readonly followersService:FollowersService,
+        private readonly postService:PostService
     ){};
 
     public async findAll(): Promise<any[]>{
@@ -83,11 +85,22 @@ export default class UserService{
                 throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
             }
 
-            delete(exists.password)
+            const followers = await this.followersService.getFollowers(exists.id)
+            const following = await this.followersService.getFollowing(exists.id)
+            const posts = await this.postService.getUserPost(exists.id)
 
-            await this
+     
 
-            return exists
+            const response = {
+                followers,
+                following,
+                posts,
+                exists
+            }
+
+            delete(response.exists.password)
+
+            return response
         } catch (error) {
             throw error
         }
@@ -120,6 +133,20 @@ export default class UserService{
             return userNameExists
         } catch (error) {
             throw error
+        }
+    }
+
+    public async updateProfuleImage(userId: string, base64String: string){
+        try {
+            const user = await this.userRepo.findUserById(userId);
+
+            if(!user) throw new AppError(httpStatus.NOT_FOUND, "invalid user")
+
+            const {secure_url} = await uploader(base64String, `profile-image/${user.user_name}`)
+
+            await this.userRepo.updateuser(user.id, {imageUrl: secure_url})
+        } catch (error) {
+            return error
         }
     }
 

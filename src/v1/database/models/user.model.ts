@@ -12,6 +12,7 @@ export default class UserModel extends Model{
     email!: string;
     role!: string;
     password?: string;
+    imageUrl!: string;
     created_at?: Date;
     updated_at?: Date;
 
