@@ -48,7 +48,7 @@ export default class CommentController {
     try {
       const response = await this.userService.getPostComment((req as any).params.id)
 
-      return reply.send(SuccessResponse("comment deleted successfully", response));
+      return reply.send(SuccessResponse("post comment", response));
     } catch (error: any) {
       logger.error({ error });
 
