@@ -79,15 +79,15 @@ export default class UserService{
 
     public async getUserData(userId: string){
         try {
-            const exists = await this.userRepo.findUserById(userId);
+            const author = await this.userRepo.findUserById(userId);
 
-            if(!exists){
+            if(!author){
                 throw new AppError(httpStatus.BAD_REQUEST, "invalid user")
             }
 
-            const followers = await this.followersService.getFollowers(exists.id)
-            const following = await this.followersService.getFollowing(exists.id)
-            const posts = await this.postService.getUserPost(exists.id)
+            const followers = await this.followersService.getFollowers(author.id)
+            const following = await this.followersService.getFollowing(author.id)
+            const posts = await this.postService.getUserPost(author.id)
 
      
 
@@ -95,10 +95,10 @@ export default class UserService{
                 followers,
                 following,
                 posts,
-                exists
+                author
             }
 
-            delete(response.exists.password)
+            delete(response.author.password)
 
             return response
         } catch (error) {
