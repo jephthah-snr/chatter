@@ -130,9 +130,22 @@ export default class UserService{
                 throw new AppError(httpStatus.NOT_FOUND, "user not found")
             }
 
-            delete userNameExists.password;
+            const followers = await this.followersService.getFollowers(userNameExists.id)
+            const following = await this.followersService.getFollowing(userNameExists.id)
+            const posts = await this.postService.getUserPost(userNameExists.id)
 
-            return userNameExists
+     
+
+            const response = {
+                followers,
+                following,
+                posts,
+                author:userNameExists
+            }
+
+            delete response.author.password;
+
+            return response
         } catch (error) {
             throw error
         }
