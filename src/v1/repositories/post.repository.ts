@@ -11,7 +11,7 @@ export class PostRepository{
             author: true,
             likes: true,
             bookmarks: true
-        });
+        }).orderBy('created_at', 'desc');
     };
 
 //     async getPosts() {
