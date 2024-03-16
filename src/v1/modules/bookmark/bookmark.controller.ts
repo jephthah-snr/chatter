@@ -16,9 +16,9 @@ export default class BookmarkController {
 
     public addBookmark = async (req: FastifyRequest, res: FastifyReply) => {
         const bookmark = (req as any).body
-        const user = (req as any).user
+        const userId = (req as any).user
         const newPayload = {
-            ...bookmark, userId: user.id
+            ...bookmark, userId: userId
         }
         const response = await this.bookmarkService.addBookmark(newPayload);
         return res.status(httpStatus.OK).send(SuccessResponse("bookmark added", response))

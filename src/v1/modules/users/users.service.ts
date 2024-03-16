@@ -130,6 +130,8 @@ export default class UserService{
                 throw new AppError(httpStatus.NOT_FOUND, "user not found")
             }
 
+            delete userNameExists.password;
+
             return userNameExists
         } catch (error) {
             throw error

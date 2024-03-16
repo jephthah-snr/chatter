@@ -11,7 +11,7 @@ export class BookmarkRepository{
     };
 
     public async findById(id: string, trx?: Transaction) {
-        return await bookmarkModel.query(trx).where({id}).first();
+        return await bookmarkModel.query(trx).findById(id)
     };
 
     public async checkExists(payload: any, trx?: Transaction) {

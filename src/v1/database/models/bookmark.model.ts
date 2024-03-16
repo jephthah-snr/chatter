@@ -1,5 +1,6 @@
 import { Model } from "objection";
 import PostModel from "./post.model";
+import UserModel from "./user.model";
 
 export default class bookmarkModel extends Model{
     static tableName = 'bookmarks';
@@ -18,6 +19,14 @@ export default class bookmarkModel extends Model{
             join: {
               from: "bookmarks.postId",
               to: "posts.id",
+            },
+          },
+          author: {
+            relation: Model.BelongsToOneRelation,
+            modelClass: UserModel,
+            join: {
+              from: "bookmarks.userId",
+              to: "users.id",
             },
           },
         };
