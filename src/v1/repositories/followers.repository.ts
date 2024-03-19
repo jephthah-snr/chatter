@@ -3,12 +3,12 @@ import { Transaction } from "objection";
 
 export class followersRepository{
     public async getFollowers(userId, trx?: Transaction) {
-        return await followersModel.query(trx).where({followerId: userId})
+        return await followersModel.query(trx).where({followerId: userId}).withGraphFetched({followers: true})
     };
 
     public async getFollowing(userId: string, trx?:Transaction){
         console.log(userId)
-        return await followersModel.query(trx).where({userId})
+        return await followersModel.query(trx).where({userId}).withGraphFetched({following: true})
        
     }
 
