@@ -55,7 +55,7 @@ export default class FollowersService {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
-        const followers = await this.followersRepo.getFollowing(userId)
+        const followers = await this.followersRepo.getFollowers(userId)
 
         if(!followers){
             return []
@@ -74,7 +74,7 @@ export default class FollowersService {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
     
-        const followers = await this.followersRepo.getFollowers(user.id)
+        const followers = await this.followersRepo.getFollowing(user.id)
 
         if(!followers){
             return []

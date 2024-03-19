@@ -128,30 +128,26 @@ export default class UserService{
             let followingStatus
             const userNameExists = await this.userRepo.findUserByUsername(username);
 
-            if(!userNameExists){
-                throw new AppError(httpStatus.NOT_FOUND, "user not found")
+            if (!userNameExists) {
+                throw new AppError(httpStatus.NOT_FOUND, "User not found");
+            }
+        
+            const following = await this.followersService.getFollowing(userNameExists.id);
+            const followers = await this.followersService.getFollowers(userNameExists.id);
+            const posts = await this.postService.getUserPost(userNameExists.id);
+        
+            const isUserFollowing = followers.some(item => item.userId === userId);
+            const isUserFollowedBy = following.some(item => item.followerId === userId);
+
+        
+            if (!isUserFollowing && isUserFollowedBy) {
+                followingStatus = "follow back";
+            } else if (isUserFollowing) {
+                followingStatus = "unfollow";
+            } else {
+                followingStatus = "follow";
             }
 
-            console.log(userNameExists)
-
-            const followers = await this.followersService.getFollowers(userNameExists.id)
-            const following = await this.followersService.getFollowing(userNameExists.id)
-            const posts = await this.postService.getUserPost(userNameExists.id)
-            console.log(followers)
-            const isUserPresent = followers.some(item => item.followerId === userId);
-            
-            // if (isUserPresent) {
-            //     console.log("You are following this user");
-            //     followingStatus = "folowing"
-            // } else {
-            //     console.log("You are not followinf this user");
-            //     followingStatus = "folowing"
-            // }
-            if (isUserPresent) {
-            followingStatus = "unfollow"
-            }else{
-                followingStatus = "follow"
-            }
 
             const response = {
                 followers,
