@@ -107,18 +107,14 @@ export default class PostService {
     }
   }
 
-  // public async getAllPosts(){
-  //   try {
 
-  //     const post = await this.postRepo.getPosts();
+  public async tranding(){
+    try {
+      const posts = await this.postRepo.trandingPosts()
 
-  //     if(!post) {
-  //       return []
-  //     }
-
-  //     return post
-  //   } catch (error: any) {
-  //     throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
-  //   }
-  // }
+      return posts
+    } catch (error) {
+      throw error
+    }
+  }
 }

@@ -37,6 +37,13 @@ public getAll = async (req: FastifyRequest, res: FastifyReply) => {
 }
 
 
+public tranding = async (req: FastifyRequest, res: FastifyReply) => {
+    const response = await this.userService.tranding();
+
+    return res.status(httpStatus.OK).send(SuccessResponse("tranding posts", response))
+}
+
+
 public getSingle = async (req: FastifyRequest, res: FastifyReply) => {
     const id = (req as any).params.id
     const response = await this.userService.getPostById(id);

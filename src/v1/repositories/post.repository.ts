@@ -80,5 +80,17 @@ export class PostRepository{
     public async getPostByUser(authorId: string, trx?: Transaction){
         return await PostModel.query(trx).where({authorId})
     }
+
+    public async trandingPosts() {
+        return await PostModel.query()
+            .where('views', '>', 20)
+            .withGraphFetched({
+                author: true,
+                likes: true,
+                bookmarks: true
+            })
+            .orderBy('created_at', 'desc');
+    };
+    
     
 }

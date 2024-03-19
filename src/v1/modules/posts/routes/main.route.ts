@@ -57,6 +57,13 @@ const PostRoute: FastifyPluginAsync = async (fastify) => {
         handler: controller.updatePostViews
     });
     
+    fastify.route({
+        url: "/tranding",
+        method: Methods.GET,
+        preHandler: [],
+        onRequest: authMiddleware,
+        handler: controller.tranding
+    });
 }
 
 export default PostRoute
