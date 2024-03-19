@@ -76,6 +76,44 @@ export default class UserService{
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
         }
     }
+
+
+    public async googleAuth(payload: any){
+        try {
+
+            const emailExists = await this.userRepo.findUserByEmail(payload.email);
+
+            if(emailExists) {
+    
+    
+                const token = await signToken({id: emailExists.id})
+    
+                return {
+                    token: token,
+                    authtype: 'login'
+                }
+            }
+            const {secure_url} = await uploader(payload.imageUrl, `profile-image/${payload.user_name}`)
+
+            console.log(secure_url)
+
+    
+            const newUserPayload = { ...payload, imageUrl: secure_url, password: 'NULL' };
+    
+            const user = await this.userRepo.saveUser(newUserPayload);
+
+            delete user.password;
+
+            const token = await signToken({id: user.id})
+    
+            return {
+                token: token,
+                authtype: 'register'
+            }
+        } catch (error: any) {
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+        }
+    }
     
 
     public async getUserData(userId: string){

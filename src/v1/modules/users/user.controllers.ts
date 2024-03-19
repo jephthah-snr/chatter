@@ -35,6 +35,22 @@ export default class UserController {
     }
   };
 
+
+  googleAuth = async (
+    req: FastifyRequest, reply: FastifyReply
+  ) => {
+    try {
+      const response = await this.userService.googleAuth((req as any).body)
+
+      return reply.send(SuccessResponse("User auth successful", response));
+    } catch (error: any) {
+      logger.error({ error });
+
+      return reply.send(ErrorResponse(error.message));
+    }
+  };
+
+
   userProfile = async (
     req: FastifyRequest, reply: FastifyReply
   ) => {

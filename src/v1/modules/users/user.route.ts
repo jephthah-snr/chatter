@@ -26,6 +26,14 @@ const usersRoute: FastifyPluginAsync = async (fastify) => {
     });
 
     fastify.route({
+        url: "/google/register",
+        method: Methods.POST,
+        preHandler: [],
+        onRequest: [],
+        handler: controller.googleAuth
+    });
+
+    fastify.route({
         url: "/profile",
         method: Methods.GET,
         preHandler: [],
