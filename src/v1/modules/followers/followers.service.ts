@@ -33,20 +33,24 @@ export default class FollowersService {
 
   public async unfollow(payload: any) {
     try {
-        const user = await this.userRepo.findUserById(payload.followerId)
-        if(!user){
-            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
+        const user = await this.userRepo.findUserById(payload.followerId);
+        if (!user) {
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id');
         }
 
-        const following = await this.followersRepo.findFollowing(payload.followerId)
+        const following = await this.followersRepo.findFollowing(payload.followerId, payload.followingId);
+        if (!following) {
+            throw new AppError(httpStatus.BAD_REQUEST, "You are not following this user");
+        }
 
-        if(!following) throw new AppError(httpStatus.BAD_REQUEST, "invaid data")
+        await this.followersRepo.deleteFollowing(following.id);
 
-        await this.followersRepo.deleteFollowing(following.id)
+        return { message: "Successfully unfollowed user" };
     } catch (error: any) {
-      throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
+        throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
     }
-  }
+}
+
 
   public async getFollowers(userId: any) {
     try {
