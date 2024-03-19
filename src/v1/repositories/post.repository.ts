@@ -85,6 +85,7 @@ export class PostRepository{
         return await PostModel.query()
             .where('views', '>', 20)
             .withGraphFetched({
+                comments: true,
                 author: true,
                 likes: true,
                 bookmarks: true
