@@ -15,7 +15,8 @@ export default class UserService{
         private readonly userRepo: UserRepository,
         private readonly passwordHelper: PasswordHelper,
         private readonly followersService:FollowersService,
-        private readonly postService:PostService
+        private readonly postService:PostService,
+        //private readonly followersService: FollowersService
     ){};
 
     public async findAll(): Promise<any[]>{
@@ -122,25 +123,42 @@ export default class UserService{
     //     }
     //}
 
-    public async findUserByUsername(username: string){
+    public async findUserByUsername(username: string, userId: string){
         try {
+            let followingStatus
             const userNameExists = await this.userRepo.findUserByUsername(username);
 
             if(!userNameExists){
                 throw new AppError(httpStatus.NOT_FOUND, "user not found")
             }
 
+            console.log(userNameExists)
+
             const followers = await this.followersService.getFollowers(userNameExists.id)
             const following = await this.followersService.getFollowing(userNameExists.id)
             const posts = await this.postService.getUserPost(userNameExists.id)
-
-     
+            console.log(followers)
+            const isUserPresent = followers.some(item => item.followerId === userId);
+            
+            // if (isUserPresent) {
+            //     console.log("You are following this user");
+            //     followingStatus = "folowing"
+            // } else {
+            //     console.log("You are not followinf this user");
+            //     followingStatus = "folowing"
+            // }
+            if (isUserPresent) {
+            followingStatus = "unfollow"
+            }else{
+                followingStatus = "follow"
+            }
 
             const response = {
                 followers,
                 following,
                 posts,
-                author:userNameExists
+                author:userNameExists,
+                followingStatus
             }
 
             delete response.author.password;

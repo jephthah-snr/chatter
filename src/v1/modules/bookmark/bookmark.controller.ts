@@ -16,7 +16,7 @@ export default class BookmarkController {
 
     public addBookmark = async (req: FastifyRequest, res: FastifyReply) => {
         const bookmark = (req as any).body
-        const userId = (req as any).user
+        const userId = (req as any).user.id
         const newPayload = {
             ...bookmark, userId: userId
         }

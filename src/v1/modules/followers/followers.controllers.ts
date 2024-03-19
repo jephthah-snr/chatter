@@ -17,8 +17,8 @@ export default class FollowersController {
         const userId = (req as any).user.id
         const followerId =(req as any).params.id
         const payload = {
-            userId: followerId,
-            followerId: userId,
+            userId: userId,
+            toFollowAccountId: followerId,
         }
         const response = await this.followersService.followUser(payload);
 

@@ -16,6 +16,7 @@ export default class bookMArkService{
             if(check){
                 throw new AppError(httpStatus.CONFLICT, "post already bookmarked")
             }
+            console.log(payload)
             await this.bookmarkrepo.save(payload)
         } catch (error: any) {
            throw error

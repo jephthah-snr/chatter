@@ -68,8 +68,9 @@ export default class UserController {
 
   searchUserbyUsername = async (req: FastifyRequest, res: FastifyReply) => {
     const query = (req as any).query.q
+    const user = (req as any).user.id
 
-    const result = await  this.userService.findUserByUsername(query);
+    const result = await  this.userService.findUserByUsername(query, user);
 
     return res.status(httpStatus.OK).send(SuccessResponse(`user found`, result))
 }

@@ -14,15 +14,15 @@ export default class FollowersService {
 
   public async followUser(payload: any) {
     try {
-        const user = await this.userRepo.findUserById(payload.followerId)
-        if(!user){
-            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
+        const account = await this.userRepo.findUserById(payload.toFollowAccountId)
+        if(!account){
+            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid account id')
         }
 
-        if(payload.followerId === payload.userId) throw new AppError(httpStatus.BAD_REQUEST, "Users are not allowrd to follow themselves, we don to that here")
-
+        if(payload.toFollowAccountId === payload.userId) throw new AppError(httpStatus.BAD_REQUEST, "Users are not allowrd to follow themselves, we don to that here")
+     
         const alreadyFollowing = await this.followersRepo.CheckFollowing(payload)
-
+        console.log(alreadyFollowing)
         if(alreadyFollowing) throw new AppError(httpStatus.CONFLICT, 'you are already following this account');
 
         return await this.followersRepo.addFollowing(payload)
@@ -38,7 +38,11 @@ export default class FollowersService {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
-        await this.followersRepo.removeFolowing(payload)
+        const following = await this.followersRepo.findFollowing(payload.followerId)
+
+        if(!following) throw new AppError(httpStatus.BAD_REQUEST, "invaid data")
+
+        await this.followersRepo.deleteFollowing(following.id)
     } catch (error: any) {
       throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
     }
@@ -51,7 +55,7 @@ export default class FollowersService {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
 
-        const followers = await this.followersRepo.getFollowers(userId)
+        const followers = await this.followersRepo.getFollowing(userId)
 
         if(!followers){
             return []
@@ -70,7 +74,7 @@ export default class FollowersService {
             throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
         }
     
-        const followers = await this.followersRepo.getFollowing(user.id)
+        const followers = await this.followersRepo.getFollowers(user.id)
 
         if(!followers){
             return []
