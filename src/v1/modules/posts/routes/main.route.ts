@@ -12,7 +12,7 @@ const PostRoute: FastifyPluginAsync = async (fastify) => {
         url: "/",
         method: Methods.GET,
         preHandler: [],
-        onRequest: authMiddleware,
+        onRequest: [],
         handler: controller.getAll
     });
 
