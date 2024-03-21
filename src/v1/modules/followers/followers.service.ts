@@ -4,11 +4,11 @@ import { UserRepository } from "@v1/repositories/user.repository";
 import httpStatus from "http-status";
 import { injectable } from "tsyringe";
 
-
 @injectable()
 export default class FollowersService {
   constructor(
     private readonly  followersRepo: followersRepository,
+    //private readonly followersService:FollowersService,
     private readonly  userRepo: UserRepository
     ){}
 
@@ -52,24 +52,44 @@ export default class FollowersService {
 }
 
 
-  public async getFollowers(userId: any) {
-    try {
-        const user = await this.userRepo.findUserById(userId)
-        if(!user){
-            throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id')
-        }
+public async getFollowers(userId: any) {
+  try {
+      const user = await this.userRepo.findUserById(userId);
+      if (!user) {
+          throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Invalid user id');
+      }
 
-        const followers = await this.followersRepo.getFollowers(userId)
+      const following = await this.followersRepo.getFollowing(user.id);
+      const followers = await this.followersRepo.getFollowers(user.id);
 
-        if(!followers){
-            return []
-        }
+      if (!followers) {
+          return [];
+      }
 
-        return followers
-    } catch (error: any) {
-      throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message)
-    }
+      console.log(followers)
+
+      const followersWithButtons = followers.map(follower => {
+          let followingStatus;
+          const isUserFollowing = following.some(item => item.followerId === follower.userId);
+          const isUserFollowedBy = followers.some(item => item.userId === follower.followerId);
+
+          if (isUserFollowing && isUserFollowedBy) {
+              followingStatus = "follow back";
+          } else if (isUserFollowing) {
+              followingStatus = "unfollow";
+          } else {
+              followingStatus = "follow";
+          }
+
+          return { ...follower, followingStatus };
+      });
+
+      return followersWithButtons;
+  } catch (error: any) {
+      throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
   }
+}
+
 
   public async getFollowing(userId: any) {
     try {
