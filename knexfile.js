@@ -4,6 +4,11 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 
+
+/**
+ * @type { Object.<string, import("knex").Knex.Config> }
+ */
+
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
 module.exports = {
