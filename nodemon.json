@@ -1,6 +1,1 @@
-{
-  "watch": ["src"],
-  "ext": "ts,json",
-  "ignore": ["src/**/*.spec.ts"],
-  "exec": "npm run build && npm run start"
-}
+
